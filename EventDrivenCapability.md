@@ -9,6 +9,8 @@ This definition was arrived at via a combined meeting of Solution Architects and
 
 **Format:** <a href="http://json.org">JSON - Javascript Object Notation</a>
 
+**Topic naming:** If an API or schema change occurs, the new version should appear on a new kafka topic (or queue) with the version number in the name.
+
 **Definition:**
 ```json
 {
@@ -19,6 +21,12 @@ This definition was arrived at via a combined meeting of Solution Architects and
     "publisher":{
         "name": "REQUIRED, Name of the publishing app or service",
         "version": "REQUIRED, Version number of the publishing app or service",
+        "deprecation": // OPTIONAL object describing if and how this message topic is deprecated.
+            {
+                "deprecated": "BOOLEAN value"
+                "details": "OPTIONAL A text description of where to look for the newer version of this topic/queue/API; OR why it is being retired; OR what is replacing this API"
+                "supportedUntil": "OPTIONAL text description of how long this topic/API version will be supported (e.g. 'available through Q1 2099' or 'TBD, hopefully Q4 2020')"
+            }
         "instanceId": "The container ID of the publishing app or service",
         "schemaVersion":"REQUIRED, The publisher's schema version number"
     },
@@ -26,6 +34,7 @@ This definition was arrived at via a combined meeting of Solution Architects and
     "channel": "REQUIRED, Name of event channel, ie: job_updated, job_inserted, etc.",
     "replayId": "Replay Id of this event",
     "tags":[],
+    "version": ""
     "payload":{
         "data": {
             "id": "unique identifier of the record",
